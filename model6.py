@@ -62,7 +62,14 @@ def add_noise(df, level=0.05):
 def train_model(model, X_train, X_test, y_train, y_test):
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
-    print(classification_report(y_test, y_pred, target_names=["Anxious", "Tense", "Peaceful", "Energized", "Calm"]))
+
+    # Dynamically determine the labels in y_test
+    unique_labels = np.unique(y_test)
+    emotion_names = ["Anxious", "Tense", "Peaceful", "Energized", "Calm"]
+    target_names = [emotion_names[label] for label in unique_labels]
+
+    # Print the classification report
+    print(classification_report(y_test, y_pred, target_names=target_names))
     return model
 
 # Main Execution
